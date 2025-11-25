@@ -1,8 +1,9 @@
-import pygame
-import sys
-import random
 import math
+import random
+import sys
 from typing import List, Tuple
+
+import pygame
 
 # -------------------------------
 # Konfigurasi Game
@@ -15,7 +16,7 @@ maze_layout: List[List[int]] = [
     [1, 2, 2, 2, 2, 2, 1],
     [1, 3, 1, 1, 1, 3, 1],
     [1, 2, 2, 2, 2, 2, 1],
-    [1, 1, 1, 1, 1, 1, 1]
+    [1, 1, 1, 1, 1, 1, 1],
 ]
 
 TILE_SIZE = 48  # Masing-masing kotak 48px agar terlihat besar
@@ -41,6 +42,7 @@ WIDTH = COLS * TILE_SIZE
 HEIGHT = ROWS * TILE_SIZE + 80  # Tambah ruang HUD di bawah
 HUD_HEIGHT = 80
 
+
 def grid_to_pixel(rc: Tuple[int, int]) -> Tuple[int, int]:
     r, c = rc
     x = c * TILE_SIZE + TILE_SIZE // 2
@@ -63,7 +65,9 @@ def available_dirs(r: int, c: int) -> List[Tuple[int, int]]:
 
 
 def at_tile_center(x: float, y: float) -> bool:
-    return (int(x) - TILE_SIZE // 2) % TILE_SIZE == 0 and (int(y) - TILE_SIZE // 2) % TILE_SIZE == 0
+    return (int(x) - TILE_SIZE // 2) % TILE_SIZE == 0 and (
+        int(y) - TILE_SIZE // 2
+    ) % TILE_SIZE == 0
 
 
 class Pacman:
@@ -237,10 +241,18 @@ class Ghost:
         pygame.draw.circle(surf, color, (int(self.x), int(self.y)), self.radius)
         # Mata sederhana
         eye_offset = 6
-        pygame.draw.circle(surf, WHITE, (int(self.x - eye_offset), int(self.y - eye_offset)), 4)
-        pygame.draw.circle(surf, WHITE, (int(self.x + eye_offset), int(self.y - eye_offset)), 4)
-        pygame.draw.circle(surf, NAVY, (int(self.x - eye_offset), int(self.y - eye_offset)), 2)
-        pygame.draw.circle(surf, NAVY, (int(self.x + eye_offset), int(self.y - eye_offset)), 2)
+        pygame.draw.circle(
+            surf, WHITE, (int(self.x - eye_offset), int(self.y - eye_offset)), 4
+        )
+        pygame.draw.circle(
+            surf, WHITE, (int(self.x + eye_offset), int(self.y - eye_offset)), 4
+        )
+        pygame.draw.circle(
+            surf, NAVY, (int(self.x - eye_offset), int(self.y - eye_offset)), 2
+        )
+        pygame.draw.circle(
+            surf, NAVY, (int(self.x + eye_offset), int(self.y - eye_offset)), 2
+        )
 
 
 class Game:
@@ -353,7 +365,9 @@ class Game:
         elif self.game_over:
             status_text = "GAME OVER! Tekan Enter untuk mulai ulang."
         if status_text:
-            st_surf = self.font.render(status_text, True, ORANGE if self.pacman.powered else WHITE)
+            st_surf = self.font.render(
+                status_text, True, ORANGE if self.pacman.powered else WHITE
+            )
             surf.blit(st_surf, (16, ROWS * TILE_SIZE + 44))
 
     def game_loop(self):
